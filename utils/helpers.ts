@@ -3,9 +3,9 @@ import type {Tables} from '@/types_db';
 type Price = Tables<'prices'>; 
 
 export const getURL = (path: string = '') => {
-    // here we check if NEXT_PUBLIC_URL is set and non-empty 
-    let url = process.env.NEXT_PUBLIC_URL &&
-        process.env.NEXT_PUBLIC_URL.trim() !== ''
+    // Use the configured site URL, then the Vercel URL, then local development.
+    let url = process.env.NEXT_PUBLIC_SITE_URL &&
+        process.env.NEXT_PUBLIC_SITE_URL.trim() !== ''
         ? process.env.NEXT_PUBLIC_SITE_URL
         : process?.env?.NEXT_PUBLIC_VERCEL_URL && process.env.NEXT_PUBLIC_VERCEL_URL.trim() !== '' 
         ? process.env.NEXT_PUBLIC_VERCEL_URL 

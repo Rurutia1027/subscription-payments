@@ -1,0 +1,32 @@
+import { createClient } from '@/utils/supabase/server';
+import { getErrorRedirect, getStatusRedirect } from '@/utils/helpers';
+import { NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+
+export async function GET(request: NextRequest) {
+  const requestUrl = new URL(request.url);
+  const code = requestUrl.searchParams.get('code');
+
+  if (code) {
+    const supabase = createClient();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (error) {
+      return NextResponse.redirect(
+        getErrorRedirect(
+          `${requestUrl.origin}/signin/forgot_password`,
+          error.name,
+          "Sorry, we weren't able to log you in. Please try again."
+        )
+      );
+    }
+  }
+
+  return NextResponse.redirect(
+    getStatusRedirect(
+      `${requestUrl.origin}/signin/update_password`,
+      'You are now signed in.',
+      'Please enter a new password for your account.'
+    )
+  );
+}
