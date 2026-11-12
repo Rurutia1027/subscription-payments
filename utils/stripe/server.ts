@@ -19,7 +19,7 @@ type CheckoutResponse = {
     sessionId?: string; 
 }; 
 
-export async function checkoutWithStrip(
+export async function checkoutWithStripe(
     price: Price, 
     redirectPath: string = '/account'
 ): Promise<CheckoutResponse> {
